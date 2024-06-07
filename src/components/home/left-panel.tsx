@@ -6,9 +6,13 @@ import ThemeSwitch from "./theme-switch";
 import Conversation from "./conversation";
 import {  UserButton } from "@clerk/clerk-react";
 import UserListDialog from "./user-list-dialog";
+import { useConvexAuth, useQuery } from "convex/react";
+import { api } from "../../../convex/_generated/api";
 
 const LeftPanel = () => {
-	const conversations = [];
+	const { isAuthenticated, isLoading } = useConvexAuth();
+	const conversations = useQuery(api.conversations.getMyConversations, isAuthenticated ? undefined : "skip");
+	// const conversations = [];
 
 	return (
 		<div className='w-1/4 border-gray-600 border-r'>
